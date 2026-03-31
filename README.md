@@ -40,14 +40,14 @@ Qwen3.5 MoE 系列模型在 NVIDIA B200 上的 serving throughput 测试，对�
 
 #### ISL=1k/OSL=100
 
-| Concurrency | AutoDeploy TPS | PyTorch TPS | PyT vs AD |
-|:-----------:|:--------------:|:-----------:|:---------:|
-| 8 | 908.5 | 941.9 | 1.04x |
-| 16 | 1,454.5 | 1,568.4 | 1.08x |
-| 32 | 2,031.1 | 2,074.8 | 1.02x |
-| 64 | 2,598.8 | 3,157.6 | **1.22x** |
-| 128 | 3,342.6 | 4,127.6 | **1.23x** |
-| 256 | 3,717.0 | 4,823.2 | **1.30x** |
+| Concurrency | Avg ISL | Avg OSL | AutoDeploy TPS | PyTorch TPS | PyT vs AD |
+|:-----------:|:-------:|:-------:|:--------------:|:-----------:|:---------:|
+| 8 | 1000 | 100 | 908.5 | 941.9 | 1.04x |
+| 16 | 1000 | 100 | 1,454.5 | 1,568.4 | 1.08x |
+| 32 | 1000 | 100 | 2,031.1 | 2,074.8 | 1.02x |
+| 64 | 1000 | 100 | 2,598.8 | 3,157.6 | **1.22x** |
+| 128 | 1000 | 100 | 3,342.6 | 4,127.6 | **1.23x** |
+| 256 | 1000 | 100 | 3,717.0 | 4,823.2 | **1.30x** |
 
 | Concurrency | AutoDeploy RPS | PyTorch RPS |
 |:-----------:|:--------------:|:-----------:|
@@ -60,10 +60,10 @@ Qwen3.5 MoE 系列模型在 NVIDIA B200 上的 serving throughput 测试，对�
 
 #### ISL=10k/OSL=350 c=40
 
-| Config | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | PyT vs AD |
-|--------|:--------------:|:--------------:|:-----------:|:-----------:|:---------:|
-| Standard (graph: 1~32, 64, 128, 256) | 1,204.8 | 3.44 | 1,522.9 | 4.35 | **1.26x** |
-| c40-optimized (graph: 1~48, 64, 128, 256) | 1,263.9 | 3.61 | 1,622.4 | 4.64 | **1.28x** |
+| Config | Avg ISL | Avg OSL | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | PyT vs AD |
+|--------|:-------:|:-------:|:--------------:|:--------------:|:-----------:|:-----------:|:---------:|
+| Standard (graph: 1~32, 64, 128, 256) | 10000 | 350 | 1,204.8 | 3.44 | 1,522.9 | 4.35 | **1.26x** |
+| c40-optimized (graph: 1~48, 64, 128, 256) | 10000 | 350 | 1,263.9 | 3.61 | 1,622.4 | 4.64 | **1.28x** |
 
 #### 结论
 
@@ -75,16 +75,15 @@ Qwen3.5 MoE 系列模型在 NVIDIA B200 上的 serving throughput 测试，对�
 
 #### ISL=990/OSL=113 c=256
 
-| | AutoDeploy TPS | PyTorch TPS | PyT vs AD |
-|--|:--------------:|:-----------:|:---------:|
-| Output TPS | 4,178.1 | TODO | - |
-| RPS | 36.98 | TODO | - |
+| Concurrency | Avg ISL | Avg OSL | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | PyT vs AD |
+|:-----------:|:-------:|:-------:|:--------------:|:--------------:|:-----------:|:-----------:|:---------:|
+| 256 | 990 | 113 | 4,178.1 | 36.98 | TODO | TODO | - |
 
 #### ISL=10k/OSL=350 c=40
 
-| | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | PyT vs AD |
-|--|:--------------:|:--------------:|:-----------:|:-----------:|:---------:|
-| Standard config | 1,416.5 | 4.05 | TODO | TODO | - |
+| Config | Avg ISL | Avg OSL | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | PyT vs AD |
+|--------|:-------:|:-------:|:--------------:|:--------------:|:-----------:|:-----------:|:---------:|
+| Standard config | 10000 | 350 | 1,416.5 | 4.05 | TODO | TODO | - |
 
 ---
 

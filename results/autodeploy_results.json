@@ -1,0 +1,57 @@
+{
+  "isl1k_osl100": {
+    "config": "qwen3.5_moe_35b_tp1_taylor.yaml",
+    "scenario": "ISL=1k/OSL=100",
+    "backend": "autodeploy",
+    "data": [
+      {
+        "concurrency": 8,
+        "output_tps": 915.6,
+        "request_rps": 9.16
+      },
+      {
+        "concurrency": 16,
+        "output_tps": 1450.5,
+        "request_rps": 14.5
+      },
+      {
+        "concurrency": 32,
+        "output_tps": 2031.0,
+        "request_rps": 20.31
+      },
+      {
+        "concurrency": 64,
+        "output_tps": 2631.1,
+        "request_rps": 26.31
+      },
+      {
+        "concurrency": 128,
+        "output_tps": 3266.0,
+        "request_rps": 32.66
+      },
+      {
+        "concurrency": 256,
+        "output_tps": 3812.9,
+        "request_rps": 38.13
+      }
+    ]
+  },
+  "isl10k_osl250_c40": {
+    "scenario": "ISL=10k/OSL=250, c=40",
+    "backend": "autodeploy",
+    "data": [
+      {
+        "config": "taylor_standard",
+        "cuda_graph_batch_sizes": "1~32, 64, 128, 256",
+        "output_tps": 987.4,
+        "request_rps": 3.95
+      },
+      {
+        "config": "taylor_c40_optimized",
+        "cuda_graph_batch_sizes": "1~48, 64, 128, 256",
+        "output_tps": 1018.8,
+        "request_rps": 4.08
+      }
+    ]
+  }
+}

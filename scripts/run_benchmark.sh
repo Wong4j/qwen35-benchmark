@@ -1,7 +1,7 @@
 #!/bin/bash
-# AutoDeploy Qwen3.5-35B-A3B Benchmark Script
+# Qwen3.5-35B-A3B Benchmark Script
 # Usage: ./run_benchmark.sh <config_yaml> <port> <scenario>
-# scenario: isl1k_osl100 | isl10k_osl250 | isl4k_osl1k
+# scenario: isl1k_osl100 | isl10k_osl350 | isl4k_osl1k
 
 set -e
 
@@ -35,7 +35,7 @@ esac
 CONFIG_NAME=$(basename "$CONFIG" .yaml)
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
-echo "=== AutoDeploy Benchmark ==="
+echo "=== Benchmark ==="
 echo "Config: $CONFIG"
 echo "Scenario: $SCENARIO (ISL=$ISL, OSL=$OSL)"
 echo "Port: $PORT"

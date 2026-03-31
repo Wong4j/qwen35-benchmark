@@ -10,7 +10,7 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 
 | | AutoDeploy | PyTorch |
 |--|-----------|---------|
-| **Branch** | `taylor/taylor_qen3.5_perf` (PR-12265) | `qwen3next-3_5-pyt-perf` |
+| **Branch** | `taylor/taylor_qen3.5_perf` (PR-12265) | [`qwen3next-3_5-pyt-perf`](https://github.com/Wong4j/TensorRT-LLM/tree/qwen3next-3_5-pyt-perf) |
 | **TRT-LLM** | v1.3.0rc9 | v1.3.0rc9 |
 | **max_seq_len** | 262144 | 262144 |
 | **max_num_tokens** | 16000 | 16000 |
@@ -23,6 +23,8 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 |--------|---------|-------------|
 | `qwen3.5_moe_35b_tp1_taylor.yaml` | AutoDeploy | Taylor's optimized config, fine-grained batch sizes 1~32 |
 | `qwen3.5_moe_35b_tp1_taylor_c40.yaml` | AutoDeploy | Same as above but with batch sizes 1~48 for c=40 optimization |
+| `qwen3.5_moe_35b_tp1_pytorch.yaml` | PyTorch | TRTLLM MoE backend, matched parameters with AutoDeploy |
+| `qwen3.5_moe_35b_tp1_pytorch_c40.yaml` | PyTorch | Same as above but with batch sizes 1~48 for c=40 optimization |
 | `taylor-lee-20260320-original.yaml` | AutoDeploy | Original 8-GPU 122B config from Taylor (reference only) |
 
 ## Results
@@ -52,19 +54,23 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 | Config | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | PyT vs AD |
 |--------|---------------|----------------|-------------|-------------|-----------|
 | Standard (graph: 1~32, 64, 128, 256) | 1,204.8 | 3.44 | 1,522.9 | 4.35 | 1.26x |
-| c40-optimized (graph: 1~48, 64, 128, 256) | 1,263.9 | 3.61 | - | - | 1.21x |
+| c40-optimized (graph: 1~48, 64, 128, 256) | 1,263.9 | 3.61 | 1,622.4 | 4.64 | 1.28x |
 
 ### Summary
 
 - **ISL=1k/OSL=100**: PyTorch backend is 1.02x~1.30x faster than AutoDeploy. Gap widens at higher concurrency.
-- **ISL=10k/OSL=350**: PyTorch is 1.26x faster. c40-optimized AutoDeploy config narrows gap to 1.21x.
-- **c40 optimization**: Adding batch sizes 33~48 yields +4.9% TPS for concurrency=40 workloads.
+- **ISL=10k/OSL=350**: PyTorch is 1.26~1.28x faster across both standard and c40-optimized configs.
+- **c40 optimization**: Adding batch sizes 33~48 yields +4.9% for AutoDeploy and +6.5% for PyTorch on c=40 workloads.
 
 ## Usage
 
 ### Start server
 ```bash
+# AutoDeploy backend
 ./scripts/start_server.sh configs/qwen3.5_moe_35b_tp1_taylor.yaml 8088
+
+# PyTorch backend
+./scripts/start_server.sh configs/qwen3.5_moe_35b_tp1_pytorch.yaml 8088 pytorch
 ```
 
 ### Run benchmark

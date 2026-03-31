@@ -1,8 +1,8 @@
-# Qwen3.5-35B-A3B Benchmark
+# Qwen3.5-35B-A3B 性能测试
 
-Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
+Qwen3.5-35B-A3B 在 NVIDIA B200 单卡上的 serving throughput 测试，对比 PyTorch backend 和 AutoDeploy backend。
 
-## Environment
+## 环境
 
 - **GPU**: NVIDIA B200 (183 GB) x 1
 - **Model**: Qwen3.5-35B-A3B BF16 TP1 (35B MoE, 256 experts, top-8)
@@ -17,31 +17,31 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 | **max_batch_size** | 256 | 256 |
 | **free_gpu_memory_fraction** | 0.4 | 0.4 |
 
-## Configs
+## 配置文件
 
 | Config | Backend | Description |
 |--------|---------|-------------|
-| `qwen3.5_moe_35b_tp1_taylor.yaml` | AutoDeploy | Taylor's optimized config, fine-grained batch sizes 1~32 |
-| `qwen3.5_moe_35b_tp1_taylor_c40.yaml` | AutoDeploy | Same as above but with batch sizes 1~48 for c=40 optimization |
-| `qwen3.5_moe_35b_tp1_pytorch.yaml` | PyTorch | TRTLLM MoE backend, matched parameters with AutoDeploy |
-| `qwen3.5_moe_35b_tp1_pytorch_c40.yaml` | PyTorch | Same as above but with batch sizes 1~48 for c=40 optimization |
-| `taylor-lee-20260320-original.yaml` | AutoDeploy | Original 8-GPU 122B config from Taylor (reference only) |
+| `qwen3.5_moe_35b_tp1_taylor.yaml` | AutoDeploy | Taylor 优化配置，CUDA graph batch sizes 1~32 |
+| `qwen3.5_moe_35b_tp1_taylor_c40.yaml` | AutoDeploy | 同上，batch sizes 扩展到 1~48 以优化 c=40 场景 |
+| `qwen3.5_moe_35b_tp1_pytorch.yaml` | PyTorch | TRTLLM MoE backend，参数与 AutoDeploy 对齐 |
+| `qwen3.5_moe_35b_tp1_pytorch_c40.yaml` | PyTorch | 同上，batch sizes 扩展到 1~48 以优化 c=40 场景 |
+| `taylor-lee-20260320-original.yaml` | AutoDeploy | Taylor 原始 8-GPU 122B 配置（仅供参考） |
 
-## Results
+## 测试结果
 
 ### ISL=1k/OSL=100
 
 | Concurrency | AutoDeploy TPS | PyTorch TPS | PyT vs AD |
-|------------|---------------|-------------|-----------|
+|:-----------:|:--------------:|:-----------:|:---------:|
 | 8 | 908.5 | 941.9 | 1.04x |
 | 16 | 1,454.5 | 1,568.4 | 1.08x |
 | 32 | 2,031.1 | 2,074.8 | 1.02x |
-| 64 | 2,598.8 | 3,157.6 | 1.22x |
-| 128 | 3,342.6 | 4,127.6 | 1.23x |
-| 256 | 3,717.0 | 4,823.2 | 1.30x |
+| 64 | 2,598.8 | 3,157.6 | **1.22x** |
+| 128 | 3,342.6 | 4,127.6 | **1.23x** |
+| 256 | 3,717.0 | 4,823.2 | **1.30x** |
 
 | Concurrency | AutoDeploy RPS | PyTorch RPS |
-|------------|---------------|-------------|
+|:-----------:|:--------------:|:-----------:|
 | 8 | 9.08 | 9.42 |
 | 16 | 14.55 | 15.75 |
 | 32 | 20.31 | 20.92 |
@@ -52,19 +52,20 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 ### ISL=10k/OSL=350 c=40
 
 | Config | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | PyT vs AD |
-|--------|---------------|----------------|-------------|-------------|-----------|
-| Standard (graph: 1~32, 64, 128, 256) | 1,204.8 | 3.44 | 1,522.9 | 4.35 | 1.26x |
-| c40-optimized (graph: 1~48, 64, 128, 256) | 1,263.9 | 3.61 | 1,622.4 | 4.64 | 1.28x |
+|--------|:--------------:|:--------------:|:-----------:|:-----------:|:---------:|
+| Standard (graph: 1~32, 64, 128, 256) | 1,204.8 | 3.44 | 1,522.9 | 4.35 | **1.26x** |
+| c40-optimized (graph: 1~48, 64, 128, 256) | 1,263.9 | 3.61 | 1,622.4 | 4.64 | **1.28x** |
 
-### Summary
+### 结论
 
-- **ISL=1k/OSL=100**: PyTorch backend is 1.02x~1.30x faster than AutoDeploy. Gap widens at higher concurrency.
-- **ISL=10k/OSL=350**: PyTorch is 1.26~1.28x faster across both standard and c40-optimized configs.
-- **c40 optimization**: Adding batch sizes 33~48 yields +4.9% for AutoDeploy and +6.5% for PyTorch on c=40 workloads.
+- **ISL=1k/OSL=100**: PyTorch backend 比 AutoDeploy 快 1.02x~1.30x，并发越高优势越大。
+- **ISL=10k/OSL=350**: PyTorch 快 1.26~1.28x，标准和 c40 优化配置下均保持优势。
+- **c40 优化**: 扩展 batch sizes 到 33~48 在 c=40 场景下为 AutoDeploy 带来 +4.9%、PyTorch 带来 +6.5% 的提升。
 
-## Usage
+## 使用方法
 
-### Start server
+### 启动服务
+
 ```bash
 # AutoDeploy backend
 ./scripts/start_server.sh configs/qwen3.5_moe_35b_tp1_taylor.yaml 8088
@@ -73,7 +74,8 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 ./scripts/start_server.sh configs/qwen3.5_moe_35b_tp1_pytorch.yaml 8088 pytorch
 ```
 
-### Run benchmark
+### 运行测试
+
 ```bash
 # ISL=1k/OSL=100
 ./scripts/run_benchmark.sh configs/qwen3.5_moe_35b_tp1_taylor.yaml 8088 isl1k_osl100
@@ -85,7 +87,8 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 ./scripts/run_benchmark.sh configs/qwen3.5_moe_35b_tp1_taylor.yaml 8088 isl4k_osl1k
 ```
 
-### Extract results
+### 提取结果
+
 ```bash
 python3 scripts/extract_results.py results/
 ```

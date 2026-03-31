@@ -1,0 +1,34 @@
+{
+  "backend": "autodeploy",
+  "branch": "taylor/taylor_qen3.5_perf (PR-12265)",
+  "model": "Qwen3.5-122B-A10B BF16 TP8 8xB200",
+  "config": "qwen3.5_moe_122b_tp8_autodeploy.yaml",
+  "tool": "aiperf 0.6.0",
+  "isl990_osl113_c256": {
+    "scenario": "ISL=990/OSL=113, c=256",
+    "data": [
+      {
+        "concurrency": 256,
+        "request_count": 2048,
+        "output_tps": 4178.1,
+        "request_rps": 36.98,
+        "avg_isl": 990,
+        "avg_osl": 113
+      }
+    ]
+  },
+  "isl10k_osl350_c40": {
+    "scenario": "ISL=10000/OSL=350, c=40",
+    "data": [
+      {
+        "config": "standard",
+        "concurrency": 40,
+        "request_count": 320,
+        "output_tps": 1416.5,
+        "request_rps": 4.05,
+        "avg_isl": 10000,
+        "avg_osl": 350
+      }
+    ]
+  }
+}

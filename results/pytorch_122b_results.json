@@ -4,16 +4,16 @@
   "model": "Qwen3.5-122B-A10B BF16 TP8 8xB200",
   "config": "qwen3.5_moe_122b_tp8_pytorch.yaml",
   "tool": "aiperf 0.6.0",
-  "isl1k_osl100_c256": {
-    "scenario": "ISL=1000/OSL=100, c=256",
+  "isl990_osl113_c256": {
+    "scenario": "ISL=990/OSL=113, c=256",
     "data": [
-      {"concurrency": 256, "request_count": 2048, "output_tps": 5166.8, "request_rps": 51.67, "avg_isl": 1000, "avg_osl": 100}
+      {"concurrency": 256, "request_count": 2048, "output_tps": 5901.0, "request_rps": 52.22, "avg_isl": 990, "avg_osl": 113}
     ]
   },
   "isl10k_osl350_c40": {
     "scenario": "ISL=10000/OSL=350, c=40",
     "data": [
-      {"concurrency": 40, "request_count": 320, "output_tps": 1994.7, "request_rps": 5.70, "avg_isl": 10000, "avg_osl": 350}
+      {"concurrency": 40, "request_count": 320, "output_tps": 1999.5, "request_rps": 5.71, "avg_isl": 10000, "avg_osl": 350}
     ]
   }
 }

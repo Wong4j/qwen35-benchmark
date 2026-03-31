@@ -1,56 +1,78 @@
 {
   "isl1k_osl100": {
     "config": "qwen3.5_moe_35b_tp1_taylor.yaml",
-    "scenario": "ISL=1k/OSL=100",
+    "scenario": "ISL=1000/OSL=100",
     "backend": "autodeploy",
     "data": [
       {
         "concurrency": 8,
-        "output_tps": 915.6,
-        "request_rps": 9.16
+        "request_count": 64,
+        "output_tps": 908.5,
+        "request_rps": 9.08,
+        "avg_isl": 1000,
+        "avg_osl": 100
       },
       {
         "concurrency": 16,
-        "output_tps": 1450.5,
-        "request_rps": 14.5
+        "request_count": 128,
+        "output_tps": 1454.5,
+        "request_rps": 14.55,
+        "avg_isl": 1000,
+        "avg_osl": 100
       },
       {
         "concurrency": 32,
-        "output_tps": 2031.0,
-        "request_rps": 20.31
+        "request_count": 256,
+        "output_tps": 2031.1,
+        "request_rps": 20.31,
+        "avg_isl": 1000,
+        "avg_osl": 100
       },
       {
         "concurrency": 64,
-        "output_tps": 2631.1,
-        "request_rps": 26.31
+        "request_count": 512,
+        "output_tps": 2598.8,
+        "request_rps": 25.99,
+        "avg_isl": 1000,
+        "avg_osl": 100
       },
       {
         "concurrency": 128,
-        "output_tps": 3266.0,
-        "request_rps": 32.66
+        "request_count": 1024,
+        "output_tps": 3342.6,
+        "request_rps": 33.43,
+        "avg_isl": 1000,
+        "avg_osl": 100
       },
       {
         "concurrency": 256,
-        "output_tps": 3812.9,
-        "request_rps": 38.13
+        "request_count": 2048,
+        "output_tps": 3717.0,
+        "request_rps": 37.17,
+        "avg_isl": 1000,
+        "avg_osl": 100
       }
     ]
   },
-  "isl10k_osl250_c40": {
-    "scenario": "ISL=10k/OSL=250, c=40",
+  "isl10k_osl350_c40": {
+    "scenario": "ISL=10000/OSL=350, c=40",
     "backend": "autodeploy",
     "data": [
       {
         "config": "taylor_standard",
-        "cuda_graph_batch_sizes": "1~32, 64, 128, 256",
-        "output_tps": 987.4,
-        "request_rps": 3.95
+        "request_count": 320,
+        "output_tps": 1204.8,
+        "request_rps": 3.44,
+        "avg_isl": 10000,
+        "avg_osl": 350
       },
       {
         "config": "taylor_c40_optimized",
-        "cuda_graph_batch_sizes": "1~48, 64, 128, 256",
-        "output_tps": 1018.8,
-        "request_rps": 4.08
+        "request_count": 320,
+        "output_tps": 1263.9,
+        "request_rps": 3.61,
+        "avg_isl": 10000,
+        "avg_osl": 350
       }
     ]
   }

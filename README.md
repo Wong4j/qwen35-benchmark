@@ -25,19 +25,19 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 
 | Concurrency | Output TPS | RPS |
 |------------|-----------|-----|
-| 8 | 915.6 | 9.16 |
-| 16 | 1,450.5 | 14.50 |
-| 32 | 2,031.0 | 20.31 |
-| 64 | 2,631.1 | 26.31 |
-| 128 | 3,266.0 | 32.66 |
-| 256 | 3,812.9 | 38.13 |
+| 8 | 908.5 | 9.08 |
+| 16 | 1,454.5 | 14.55 |
+| 32 | 2,031.1 | 20.31 |
+| 64 | 2,598.8 | 25.99 |
+| 128 | 3,342.6 | 33.43 |
+| 256 | 3,717.0 | 37.17 |
 
-#### ISL=10k/OSL=250 c=40
+#### ISL=10k/OSL=350 c=40
 
 | Config | Output TPS | RPS | Notes |
 |--------|-----------|-----|-------|
-| Taylor standard (graph: 1~32, 64, 128, 256) | 987.4 | 3.95 | |
-| Taylor c40-optimized (graph: 1~48, 64, 128, 256) | 1,018.8 | 4.08 | +3.2% from finer batch sizes |
+| Taylor standard (graph: 1~32, 64, 128, 256) | 1,204.8 | 3.44 | |
+| Taylor c40-optimized (graph: 1~48, 64, 128, 256) | 1,263.9 | 3.61 | +4.9% from finer batch sizes |
 
 ### PyTorch Backend
 
@@ -55,8 +55,8 @@ _TODO_
 # ISL=1k/OSL=100
 ./scripts/run_benchmark.sh configs/qwen3.5_moe_35b_tp1_taylor.yaml 8088 isl1k_osl100
 
-# ISL=10k/OSL=250
-./scripts/run_benchmark.sh configs/qwen3.5_moe_35b_tp1_taylor_c40.yaml 8088 isl10k_osl250
+# ISL=10k/OSL=350
+./scripts/run_benchmark.sh configs/qwen3.5_moe_35b_tp1_taylor_c40.yaml 8088 isl10k_osl350
 
 # ISL=4k/OSL=1k
 ./scripts/run_benchmark.sh configs/qwen3.5_moe_35b_tp1_taylor.yaml 8088 isl4k_osl1k

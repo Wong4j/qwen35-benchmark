@@ -1,0 +1,32 @@
+{
+  "backend": "pytorch",
+  "branch": "qwen3next-3_5-pyt-perf",
+  "model": "Qwen3.5-35B-A3B BF16 TP1 B200",
+  "config": {
+    "moe_config": {"backend": "TRTLLM"},
+    "max_batch_size": 256,
+    "max_num_tokens": 16000,
+    "max_seq_len": 262144,
+    "enable_chunked_prefill": true,
+    "cuda_graph_config": {"enable_padding": true},
+    "kv_cache_config": {"free_gpu_memory_fraction": 0.4, "tokens_per_block": 32}
+  },
+  "tool": "aiperf 0.6.0",
+  "isl1k_osl100": {
+    "scenario": "ISL=1000, OSL=100",
+    "data": [
+      {"concurrency": 8, "num_requests": 64, "output_tps": 941.9, "request_rps": 9.42},
+      {"concurrency": 16, "num_requests": 128, "output_tps": 1568.4, "request_rps": 15.75},
+      {"concurrency": 32, "num_requests": 256, "output_tps": 2074.8, "request_rps": 20.92},
+      {"concurrency": 64, "num_requests": 512, "output_tps": 3157.6, "request_rps": 31.96},
+      {"concurrency": 128, "num_requests": 1024, "output_tps": 4127.6, "request_rps": 41.59},
+      {"concurrency": 256, "num_requests": 2048, "output_tps": 4823.2, "request_rps": 48.63}
+    ]
+  },
+  "isl10k_osl350": {
+    "scenario": "ISL=10000, OSL=350",
+    "data": [
+      {"concurrency": 40, "num_requests": 320, "output_tps": 1522.9, "request_rps": 4.35}
+    ]
+  }
+}

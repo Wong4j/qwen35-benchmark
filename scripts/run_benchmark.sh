@@ -14,20 +14,20 @@ RESULT_DIR=${RESULT_DIR:-./results}
 # Scenario definitions
 case $SCENARIO in
   isl1k_osl100)
-    ISL=990; OSL=100; MIN_TOKENS=100; TIMEOUT=600
+    ISL=1000; OSL=100; MIN_TOKENS=100; TIMEOUT=600
     CONCURRENCIES="8 16 32 64 128 256"
     ;;
-  isl10k_osl250)
-    ISL=9990; OSL=250; MIN_TOKENS=250; TIMEOUT=1800
+  isl10k_osl350)
+    ISL=10000; OSL=350; MIN_TOKENS=350; TIMEOUT=1800
     CONCURRENCIES="40"
     ;;
   isl4k_osl1k)
-    ISL=3990; OSL=1000; MIN_TOKENS=1000; TIMEOUT=1800
+    ISL=4000; OSL=1000; MIN_TOKENS=1000; TIMEOUT=1800
     CONCURRENCIES="1 8 64 128 256"
     ;;
   *)
     echo "Unknown scenario: $SCENARIO"
-    echo "Available: isl1k_osl100, isl10k_osl250, isl4k_osl1k"
+    echo "Available: isl1k_osl100, isl10k_osl350, isl4k_osl1k"
     exit 1
     ;;
 esac

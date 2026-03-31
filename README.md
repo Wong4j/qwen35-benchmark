@@ -29,14 +29,14 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 
 ### ISL=1k/OSL=100
 
-| Concurrency | AutoDeploy TPS | PyTorch TPS | AD vs PyT |
+| Concurrency | AutoDeploy TPS | PyTorch TPS | PyT vs AD |
 |------------|---------------|-------------|-----------|
-| 8 | 908.5 | 941.9 | 0.96x |
-| 16 | 1,454.5 | 1,568.4 | 0.93x |
-| 32 | 2,031.1 | 2,074.8 | 0.98x |
-| 64 | 2,598.8 | 3,157.6 | 0.82x |
-| 128 | 3,342.6 | 4,127.6 | 0.81x |
-| 256 | 3,717.0 | 4,823.2 | 0.77x |
+| 8 | 908.5 | 941.9 | 1.04x |
+| 16 | 1,454.5 | 1,568.4 | 1.08x |
+| 32 | 2,031.1 | 2,074.8 | 1.02x |
+| 64 | 2,598.8 | 3,157.6 | 1.22x |
+| 128 | 3,342.6 | 4,127.6 | 1.23x |
+| 256 | 3,717.0 | 4,823.2 | 1.30x |
 
 | Concurrency | AutoDeploy RPS | PyTorch RPS |
 |------------|---------------|-------------|
@@ -49,15 +49,15 @@ Performance benchmark results for Qwen3.5-35B-A3B on NVIDIA B200 (single GPU).
 
 ### ISL=10k/OSL=350 c=40
 
-| Config | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | AD vs PyT |
+| Config | AutoDeploy TPS | AutoDeploy RPS | PyTorch TPS | PyTorch RPS | PyT vs AD |
 |--------|---------------|----------------|-------------|-------------|-----------|
-| Standard (graph: 1~32, 64, 128, 256) | 1,204.8 | 3.44 | 1,522.9 | 4.35 | 0.79x |
-| c40-optimized (graph: 1~48, 64, 128, 256) | 1,263.9 | 3.61 | - | - | 0.83x |
+| Standard (graph: 1~32, 64, 128, 256) | 1,204.8 | 3.44 | 1,522.9 | 4.35 | 1.26x |
+| c40-optimized (graph: 1~48, 64, 128, 256) | 1,263.9 | 3.61 | - | - | 1.21x |
 
 ### Summary
 
-- **ISL=1k/OSL=100**: AutoDeploy achieves 77%~98% of PyTorch backend throughput. Gap widens at higher concurrency.
-- **ISL=10k/OSL=350**: AutoDeploy at ~79% of PyTorch. c40-optimized config closes gap to 83%.
+- **ISL=1k/OSL=100**: PyTorch backend is 1.02x~1.30x faster than AutoDeploy. Gap widens at higher concurrency.
+- **ISL=10k/OSL=350**: PyTorch is 1.26x faster. c40-optimized AutoDeploy config narrows gap to 1.21x.
 - **c40 optimization**: Adding batch sizes 33~48 yields +4.9% TPS for concurrency=40 workloads.
 
 ## Usage
